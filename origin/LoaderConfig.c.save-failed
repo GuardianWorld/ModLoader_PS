@@ -18,7 +18,6 @@ void openConfigFile(ConfPTR config, FILE **configFile)
 
 void MakeDirOneTime(char *path)
 {
-    printf("Making folders\n");
     char temporary[250]; //Mod Folder, Backups usage
     char temporary2[250];
     strcpy(temporary, path);
@@ -33,7 +32,6 @@ void MakeDirOneTime(char *path)
     strcat(temporary2, "\\win32_na");
     mkdir(temporary);
     mkdir(temporary2);
-    printf("Done!\n");
 }
 
 
@@ -47,13 +45,13 @@ void writeConfig(ConfPTR config, FILE **configFile, int empty)
 		printf("Welcome to the Setup of the PSO2 Mod Loader!\n");
 		printf("First, lets get some information to get it working.\n");
 		printf("Please input the full path to the PSO2_bin you using.\n");
-		printf("Keep in mind a MLoader folder will be made inside it.\n");
+		printf("Keep in mind a MLoader folder and a Backup folder will be made inside it.\n");
 		printf("pso2_bin folder path: ");
 		memset(config->path1, '\0', 200);
 		fgets(config->path1, 200, stdin);
-        printf("Allow the Mod Loader to change files in the win32_na folder? (For PSO2 Global only) \n (This configuration can be changed at any time in the main menu).\n");
-        printf("Please select Y/N: ");
+        printf("Do you want the Mod Loader to be capable of changing files in the win32_na folder? (For PSO2 Global only) \n (This configuration can be changed at any time in the main menu).\n");
         fgets(option, 2, stdin);
+        printf("Please select Y/N:");
         if(option[0] == 'y' || option[0] == 'Y')
         {
             config->NAFolder1 = 1;
@@ -66,14 +64,11 @@ void writeConfig(ConfPTR config, FILE **configFile, int empty)
 	*configFile = fopen("ModLoaderConfig.txt", "w");
 	fprintf(*configFile, config->path1);
     fprintf(*configFile, "%d\n", config->NAFolder1);
-    fprintf(*configFile, "V2");
-    if (empty == EMPTY)
-    {
-        memset(temp,'\0',208);
-        size = strlen(config->path1) - 1;
-        strncpy(temp, config->path1,size);
-        MakeDirOneTime(&temp);
-    }
+    memset(temp,'\0',208);
+    size = strlen(config->path1) - 1;
+    strncpy(temp, config->path1,size);
+    //makeDirOneTime(&temp);
+
 	fclose(*configFile);
 	return;
 }
@@ -92,26 +87,8 @@ void readConfig(ConfPTR config, FILE **configFile)
         {
             config->NAFolder1 = atoi(tempPath);
         }
-        else if(x == 2)
-        {
-            if(strcmp(tempPath, "V2") != 0)
-            {
-                x == 0;
-                break;
-            }
-        }
 		x++;
 	}
-
-	if(x != 3)
-    {
-        fclose(*configFile);
-        printf("\nError detected on the configuration file, remaking file\n");
-        writeConfig(config, configFile, EMPTY);
-        return;
-    }
-
-
 	return;
 }
 void changeConfig(ConfPTR config, FILE **configFile)
@@ -133,7 +110,7 @@ void changeConfig(ConfPTR config, FILE **configFile)
 
 void ChangeNAFolderUsage(ConfPTR config, FILE **configFile)
 {
-    printf("Changing NA Folder Modding\n");
+    printf("Activating NA Folder Modding\n");
     if (config->NAFolder1 == 1)
     {
         config->NAFolder1 = 0;

@@ -12,9 +12,9 @@
 #include "LoaderConfig.h"
 
 int CheckFile();
-void MakeDirOneTime(char *path, int P);
-void ListModInsert(ConfPTR config, int path);
-void LoadPasteBackupModule(ConfPTR config, char *path, char *filename,int P, int SIZE);
+void ListModInsert(ConfPTR config);
+void ListModRemoval(ConfPTR config);
+void LoadPasteBackupModule(ConfPTR config, char *path, char *filename, int SIZE);
 void returnBeckups(ConfPTR config, char *path, char *filename,char *purePath);
 void returnBeckupsNAFolder(ConfPTR config, char *path, char *filename, char *purePath);
 

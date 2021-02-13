@@ -9,29 +9,21 @@ reading.
 
 */
 
-void ListModInsert(ConfPTR config, int path)
+void ListModInsert(ConfPTR config)
 {
     char temp[208];
     int size;
     int x = 0;
     memset(temp,'\0',208);
-    if(path == PATH2)
-    {
-        size = strlen(config->path2) - 1;
-        strncpy(temp, config->path2,size);
-    }
-    else
-    {
-        size = strlen(config->path1) - 1;
-        strncpy(temp, config->path1,size);
-    }
+    size = strlen(config->path1) - 1;
+    strncpy(temp, config->path1,size);
     strcat(temp, "\\MLoader");
 	DIR *d;
 	struct dirent *dir;
 	d = opendir(temp);
 	if (d)
 	{
-	    MakeDirOneTime(&temp, path);
+	   //MakeDirOneTime(&temp);
 	    printf("\n");
 		while ((dir = readdir(d)) != NULL)
 		{
@@ -41,7 +33,7 @@ void ListModInsert(ConfPTR config, int path)
 		        if(checkProhibitions(&dir->d_name) == 1)
                 {
                     //printf("Path %d\n", path);
-                    LoadPasteBackupModule(config, &temp, &dir->d_name, path, size);
+                    LoadPasteBackupModule(config, &temp, &dir->d_name, size);
                     printf("\n");
                 }
 		    }
@@ -60,39 +52,7 @@ int checkProhibitions(char* dirName)
     return 1;
 }
 
-void MakeDirOneTime(char *path, int P)
-{
-    char temporary[250]; //Mod Folder, Backups usage
-    char temporary2[250];
-    if(P == PATH2)
-    {
-        strcpy(temporary, path);
-        strcat(temporary, "\\backup");
-        mkdir(temporary);
-        strcat(temporary, "\\path2");
-        mkdir(temporary);
-        strcpy(temporary2, temporary);
-        strcat(temporary, "\\win32");
-        strcat(temporary2, "\\win32_na");
-        mkdir(temporary);
-        mkdir(temporary2);
-    }
-    else
-    {
-        strcpy(temporary, path);
-        strcat(temporary, "\\backup");
-        mkdir(temporary);
-        strcat(temporary, "\\path1");
-        mkdir(temporary);
-        strcpy(temporary2, temporary);
-        strcat(temporary, "\\win32");
-        strcat(temporary2, "\\win32_na");
-        mkdir(temporary);
-        mkdir(temporary2);
-    }
-}
-
-void LoadPasteBackupModule(ConfPTR config, char *path, char *filename, int P, int SIZE)
+void LoadPasteBackupModule(ConfPTR config, char *path, char *filename, int SIZE)
 {
     //Backup Part
     int er = 0;
@@ -105,34 +65,24 @@ void LoadPasteBackupModule(ConfPTR config, char *path, char *filename, int P, in
     memset(data,'\0',250);
     memset(dataNA, '\0',250);
     char pathTemp[8];
-    if(P == PATH2)
-    {
-        strcpy(backups, path);
-        strcpy(backupsNA, path);
-        strcat(backups, "\\backup\\path2\\win32\\"); //Go to the Path2 backup folder win32
-        strcat(backupsNA, "\\backup\\path2\\win32_na\\");
-        strncpy(data, config->path2,SIZE);
-        strncpy(dataNA, config->path2,SIZE);
-    }
-    else
-    {
-        strcpy(backups, path);
-        strcpy(backupsNA, path);
-        strcat(backups, "\\backup\\path1\\win32\\"); //Go to the Path1 backup folder win32
-        strcat(backupsNA, "\\backup\\path1\\win32_na\\");
-        strncpy(data, config->path1,SIZE);
-        strncpy(dataNA, config->path1,SIZE);
-    }
 
-        strcat(backups, filename);
-        strcat(backupsNA, filename);
-        //strcat(backupsNA, filename);
-        strcat(data, "\\data\\win32\\"); //Go to the win32 folder in pso2 data
-        strcat(dataNA, "\\data\\win32_na\\"); //Go to the win32 folder in pso2 data
-        strcat(data, filename);
-        strcat(dataNA, filename);
-        //printf("DataNA Folder: %s\n", dataNA);
-        //printf("Backup Folder: %s\n", backups);
+    //Go to the correct Path
+    strcpy(backups, path);
+    strcpy(backupsNA, path);
+    strcat(backups, "\\backup\\path1\\win32\\"); //Go to the Path1 backup folder win32
+    strcat(backupsNA, "\\backup\\path1\\win32_na\\");
+    strncpy(data, config->path1,SIZE);
+    strncpy(dataNA, config->path1,SIZE);
+
+    strcat(backups, filename);
+    strcat(backupsNA, filename);
+    //strcat(backupsNA, filename);
+    strcat(data, "\\data\\win32\\"); //Go to the win32 folder in pso2 data
+    strcat(dataNA, "\\data\\win32_na\\"); //Go to the win32 folder in pso2 data
+    strcat(data, filename);
+    strcat(dataNA, filename);
+    //printf("DataNA Folder: %s\n", dataNA);
+    //printf("Backup Folder: %s\n", backups);
 
     //Check if the file aleardy exists on the BACKUP folder, if exist, do nothing!
     er = CopyFile(data,backups,TRUE);
@@ -148,10 +98,9 @@ void LoadPasteBackupModule(ConfPTR config, char *path, char *filename, int P, in
     FILE* modded;
 
     //printf("Path %d\n", P);
-    if(config->NAFolder1 == 1 && P == PATH1)
+    if(config->NAFolder1)
     {
         modded = fopen(dataNA, "rb");
-
         if(modded != NULL)
         {
             fclose(modded);
@@ -184,7 +133,7 @@ void LoadPasteBackupModule(ConfPTR config, char *path, char *filename, int P, in
         printf("File Modded with Success!\n");
     }
 
-    if(config->NAFolder1 == 1 && P == PATH1)
+    if(config->NAFolder1 == 1)
     {
         modded = fopen(dataNA, "rb");
         if(modded != NULL)
@@ -207,7 +156,7 @@ void LoadPasteBackupModule(ConfPTR config, char *path, char *filename, int P, in
     return;
 }
 
-void ListModRemoval(ConfPTR config, int path)
+void ListModRemoval(ConfPTR config)
 {
 //List that will go straight to the Path1 or Path2 Backup folders (and their respective Win32 and Win32_na)
     char win32BFolder[230];
@@ -216,20 +165,12 @@ void ListModRemoval(ConfPTR config, int path)
     int x = 0;
     memset(win32BFolder,'\0',230);
     memset(purePath,'\0',230);
-    if(path == PATH2)
-    {
-        size = strlen(config->path2) - 1;
-        strncpy(win32BFolder, config->path2,size);
-        strncpy(purePath, config->path2, size);
-        strcat(win32BFolder, "\\MLoader\\backup\\path2\\win32");
-    }
-    else
-    {
-        size = strlen(config->path1) - 1;
-        strncpy(win32BFolder, config->path1,size);
-        strncpy(purePath, config->path1, size);
-        strcat(win32BFolder, "\\MLoader\\backup\\path1\\win32");
-    }
+
+    size = strlen(config->path1) - 1;
+    strncpy(win32BFolder, config->path1,size);
+    strncpy(purePath, config->path1, size);
+    strcat(win32BFolder, "\\MLoader\\backup\\path1\\win32");
+
     strcat(purePath, "\\data\\win32");
     //printf("%s\n",purePath);
 	DIR *d;
@@ -246,7 +187,7 @@ void ListModRemoval(ConfPTR config, int path)
 		        if(checkProhibitions(&dir->d_name) == 1)
                 {
                     returnBeckups(config, &win32BFolder, &dir->d_name, &purePath);
-                    if(config->NAFolder1 == 1 && path == PATH1)
+                    if(config->NAFolder1 == 1)
                     {
                         returnBeckupsNAFolder(config, &win32BFolder, &dir->d_name, &purePath);
                     }

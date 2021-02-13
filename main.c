@@ -8,21 +8,22 @@ int main()
 {
 	int x = -1;
 	FILE* configFILE;
+    loadingMenu();
 	TypeConfig configuration;
 	openConfigFile(&configuration, &configFILE);
 	while (1)
 	{
-		chooseMenu(&configuration);
+		DefaultMenu(&configuration);
 		//printf("%s\n", configuration.path1);
 		scanf("%d", &x);
 		if (x == 1)
 		{
 			//Check mod folder for now
-            ListModInsert(&configuration, configuration.TwoPath);
+            ListModInsert(&configuration);
 		}
 		if (x == 2)
 		{
-            ListModRemoval(&configuration, configuration.TwoPath);
+            ListModRemoval(&configuration);
 		}
 		if(x == 3)
         {
