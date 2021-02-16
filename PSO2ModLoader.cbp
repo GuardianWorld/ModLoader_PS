@@ -34,6 +34,9 @@
 		<Unit filename="headers/ConsoleInterface.h" />
 		<Unit filename="headers/LoadPasteModule.h" />
 		<Unit filename="headers/LoaderConfig.h" />
+		<Unit filename="icon.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
