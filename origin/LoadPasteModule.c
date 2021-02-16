@@ -9,37 +9,69 @@ reading.
 
 */
 
+int getFileAmount(ConfPTR config, char *temp, DIR *d)
+{
+    struct dirent *dir;
+    int x = 0;
+    d = opendir(temp);
+	if (d)
+	{
+	    while ((dir = readdir(d)) != NULL)
+		{
+		    //printf("%s\n", dir->d_name);
+		    if(checkProhibitions(dir->d_name) == 1)
+		    {
+                x++;
+		    }
+		}
+		closedir(d);
+	}
+    printf("%d Files found!\n", x-2);
+	return x-2;
+}
+
 void ListModInsert(ConfPTR config)
 {
     char temp[208];
     int size;
-    int x = 0;
+    int x = 0, i = 1;
+    int files = 0;
+    DIR *d = NULL;
+	struct dirent *dir;
+
     memset(temp,'\0',208);
     size = strlen(config->path1) - 1;
     strncpy(temp, config->path1,size);
     strcat(temp, "\\MLoader");
-	DIR *d;
-	struct dirent *dir;
-	d = opendir(temp);
+
+    files = getFileAmount(config, temp, d);  //Get the amount of files on the folder
+
+    d = opendir(temp);
 	if (d)
 	{
 	   //MakeDirOneTime(&temp);
-	    printf("\n");
+	    printf("Modding files, please wait...\n");
 		while ((dir = readdir(d)) != NULL)
 		{
 		    if(x > 1)
 		    {
 		        //printf("%s\n", dir->d_name);
-		        if(checkProhibitions(&dir->d_name) == 1)
+		        if(checkProhibitions(dir->d_name) == 1)
                 {
+                    if(((100.00/files) * (x-2)) > (25 * i))
+                    {
+                        printf("Progress = %d%%\n",(25 * i));
+                        i++;
+                    }
                     //printf("Path %d\n", path);
-                    LoadPasteBackupModule(config, &temp, &dir->d_name, size);
-                    printf("\n");
+                    LoadPasteBackupModule(config, temp, dir->d_name, size);
                 }
 		    }
 		    x++;
 		}
 		closedir(d);
+		printf("Progress = 100%%\n");
+		printf("Done!\n");
 	}
 }
 
@@ -64,7 +96,6 @@ void LoadPasteBackupModule(ConfPTR config, char *path, char *filename, int SIZE)
     char dataNA[250]; //Straight into the win32_na Folder it goes.
     memset(data,'\0',250);
     memset(dataNA, '\0',250);
-    char pathTemp[8];
 
     //Go to the correct Path
     strcpy(backups, path);
@@ -88,11 +119,14 @@ void LoadPasteBackupModule(ConfPTR config, char *path, char *filename, int SIZE)
     er = CopyFile(data,backups,TRUE);
     if(er == 0)
     {
-        printf("Backup of File %s not made, aleardy exists in Backups folder\n", filename);
+        if(config->hideMessages == 0)
+        {
+            printf("\nBackup of File %s not made, aleardy exists in Backups folder.\n", filename);
+        }
     }
     else
     {
-        printf("File %s made backup with success\n", filename);
+        printf("\nFile %s made backup with success.\n", filename);
     }
 
     FILE* modded;
@@ -107,11 +141,14 @@ void LoadPasteBackupModule(ConfPTR config, char *path, char *filename, int SIZE)
             er = CopyFile(dataNA,backupsNA,TRUE);
             if(er == 0)
             {
-                printf("Backup of NA File %s not made, aleardy exists in Backups folder\n",filename);
+                if(config->hideMessages == 0)
+                {
+                    printf("Backup of NA File %s not made, aleardy exists in Backups folder.\n",filename);
+                }
             }
             else
             {
-                printf("NA File %s made backup with success\n", filename);
+                printf("NA File %s made backup with success.\n", filename);
             }
         }
 
@@ -130,7 +167,10 @@ void LoadPasteBackupModule(ConfPTR config, char *path, char *filename, int SIZE)
     }
     else
     {
-        printf("File Modded with Success!\n");
+        if(config->hideMessages == 0)
+        {
+            printf("File Modded with Success!\n");
+        }
     }
 
     if(config->NAFolder1 == 1)
@@ -146,7 +186,10 @@ void LoadPasteBackupModule(ConfPTR config, char *path, char *filename, int SIZE)
             }
             else
             {
-                printf("NA File Modded with Success!\n");
+                if(config->hideMessages == 0)
+                {
+                    printf("NA File Modded with Success!\n");
+                }
             }
         }
 
@@ -162,7 +205,12 @@ void ListModRemoval(ConfPTR config)
     char win32BFolder[230];
     char purePath[230];
     int size;
-    int x = 0;
+    int x = 0, i = 0;
+    int files = 0;
+    DIR *d = NULL;
+	struct dirent *dir;
+
+
     memset(win32BFolder,'\0',230);
     memset(purePath,'\0',230);
 
@@ -173,30 +221,38 @@ void ListModRemoval(ConfPTR config)
 
     strcat(purePath, "\\data\\win32");
     //printf("%s\n",purePath);
-	DIR *d;
-	struct dirent *dir;
-	d = opendir(win32BFolder);
+
+    files = getFileAmount(config, win32BFolder, d);
+
+    d = opendir(win32BFolder);
 	if (d)
 	{
-        printf("\n");
+	    printf("Restoring files, please wait...\n");
 		while ((dir = readdir(d)) != NULL)
 		{
 		    if(x > 1)
 		    {
 		        //printf("%s\n", dir->d_name);
-		        if(checkProhibitions(&dir->d_name) == 1)
+		        if(checkProhibitions(dir->d_name) == 1)
                 {
-                    returnBeckups(config, &win32BFolder, &dir->d_name, &purePath);
+                    if(((100.00/files) * (x-2)) > (25 * i))
+                    {
+                        printf("Progress = %d%%\n",(25 * i));
+                        i++;
+                    }
+
+                    returnBeckups(config, win32BFolder, dir->d_name, purePath);
                     if(config->NAFolder1 == 1)
                     {
-                        returnBeckupsNAFolder(config, &win32BFolder, &dir->d_name, &purePath);
+                        returnBeckupsNAFolder(config, win32BFolder, dir->d_name, purePath);
                     }
-                    printf("\n");
                 }
 		    }
 		    x++;
 		}
 		closedir(d);
+		printf("Progress = 100%%\n");
+        printf("Done!\n");
 	}
 
 
@@ -204,7 +260,6 @@ void ListModRemoval(ConfPTR config)
 void returnBeckups(ConfPTR config, char *path, char *filename, char *purePath)
 {
     char data[250]; //Straight into the win32 Folder it goes.
-    char dataNA[250];
     char modFile[250]; //Mod File to be get
     int er = 0;
     strcpy(data, purePath);//Go to the win32 folder in pso2 data
@@ -220,11 +275,14 @@ void returnBeckups(ConfPTR config, char *path, char *filename, char *purePath)
 
     if(er == 0)
     {
-        printf("Error Restoring File! Maybe the file is aleardy in use?\n");
+        printf("\nError Restoring File! Maybe the file is aleardy in use?\n");
     }
     else
     {
-        printf("File %s Restored with Success!\n",filename);
+        if(config->hideMessages == 0)
+        {
+            printf("\nFile %s Restored with Success!\n",filename);
+        }
     }
 
     return;
@@ -233,7 +291,6 @@ void returnBeckups(ConfPTR config, char *path, char *filename, char *purePath)
 void returnBeckupsNAFolder(ConfPTR config, char *path, char *filename, char *purePath)
 {
     char data[250]; //Straight into the win32 Folder it goes.
-    char dataNA[250];
     char modFile[250]; //Mod File to be get
     int er = 0;
     strcpy(data, purePath);//Go to the win32 folder in pso2 data
@@ -261,7 +318,10 @@ void returnBeckupsNAFolder(ConfPTR config, char *path, char *filename, char *pur
         }
         else
         {
-            printf("NA File %s Restored with Success!\n",filename);
+            if(config->hideMessages == 0)
+            {
+                printf("NA File %s Restored with Success!\n",filename);
+            }
         }
     }
 

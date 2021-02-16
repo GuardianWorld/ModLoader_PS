@@ -6,9 +6,9 @@
 #include "LoadPasteModule.h"
 #include "LoaderConfig.h"
 
+void loadingMenu();
 void chooseMenu(ConfPTR file);
 void DefaultMenu(ConfPTR config);
 void ConfigMenu(ConfPTR config, FILE **configFile);
-void remakeFolders(ConfPTR config);
 
 #endif //CINT_H_INCLUDED

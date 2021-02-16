@@ -12,6 +12,8 @@
 #include "LoaderConfig.h"
 
 int CheckFile();
+int checkProhibitions(char* dirName);
+int getFileAmount(ConfPTR config, char *temp, DIR *d);
 void ListModInsert(ConfPTR config);
 void ListModRemoval(ConfPTR config);
 void LoadPasteBackupModule(ConfPTR config, char *path, char *filename, int SIZE);

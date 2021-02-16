@@ -2,10 +2,8 @@
 
 void loadingMenu()
 {
-	char version[5] = "0.2";
-	printf("Welcome to version %s of the PSO2 ModLoader made by Cat (GW)\n", version);
+	printf("Welcome to version 0.3 of the PSO2 ModLoader made by Cat.\n");
 	printf("Now loading the program, please wait a little.\n");
-	//Adicionar na memoria o arquivo de Configuração aqui ;-;
 }
 
 void DefaultMenu(ConfPTR config)
@@ -31,6 +29,7 @@ void DefaultMenu(ConfPTR config)
 void ConfigMenu(ConfPTR config, FILE **configFile)
 {
 	char tempNA[6];
+	char tempMessages[6];
 	int y = 0;
 	while (1)
 	{
@@ -42,11 +41,20 @@ void ConfigMenu(ConfPTR config, FILE **configFile)
         {
             strcpy(tempNA, "(off)\0");
         }
+        if (config->hideMessages == 0)
+        {
+            strcpy(tempMessages, "(on) \0");
+        }
+        else
+        {
+            strcpy(tempMessages, "(off)\0");
+        }
 	    printf("|======================================|\n");
         printf("|       Configuration File Change      |\n");
         printf("| 1) Change Path1                      |\n");
         printf("| 2) Activate/Deactivate win32_na %s|\n", tempNA);
-        printf("| 3) Remake all the folders            |\n");
+        printf("| 3) Turn On/Off Log Messages %s    |\n", tempMessages);
+        printf("| 9) Remake all the folders            |\n");
         printf("| 0) Back                              |\n");
         printf("|======================================|\n");
 		printf("Option: ");
@@ -61,6 +69,10 @@ void ConfigMenu(ConfPTR config, FILE **configFile)
         }
         else if(y == 3)
         {
+            turnMessages(config, configFile);
+        }
+        else if(y == 9)
+        {
             remakeFolders(config);
         }
 		else
@@ -69,16 +81,4 @@ void ConfigMenu(ConfPTR config, FILE **configFile)
 		}
 	}
 	return;
-}
-
-void remakeFolders(ConfPTR config)
-{
-    char temp[208];
-    int size = 0;
-    printf("The program will attempt to create all folders again (Be aware that no folders or files will be deleted if they aleardy exist)\n");
-    memset(temp,'\0',208);
-    size = strlen(config->path1) - 1;
-    strncpy(temp, config->path1,size);
-    MakeDirOneTime(&temp);
-    return;
 }
