@@ -1,4 +1,3 @@
-======================================
 	Changelog Mod Loader, made by CAT (EE).
 
  Version 0.4:
