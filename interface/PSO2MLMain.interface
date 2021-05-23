@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.38.2 -->
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <object class="GtkTextBuffer" id="TerminalText">
+    <property name="text" translatable="yes">188 Files Found!
+Modding files, please wait...
+Done in 7 seconds.
+NA File efb79dc3aa65fa6c3343b01bdc17b333 Restored with Success!
+a
+a
+a
+a
+a
+a</property>
+  </object>
+  <object class="GtkApplicationWindow" id="MainWindow">
+    <property name="can-focus">False</property>
+    <property name="title" translatable="yes">PSO2 Mod Loader</property>
+    <property name="resizable">False</property>
+    <property name="window-position">center</property>
+    <property name="default-width">664</property>
+    <property name="default-height">420</property>
+    <property name="icon">ex-cube transparent.png</property>
+    <property name="decorated">False</property>
+    <property name="gravity">center</property>
+    <signal name="destroy" handler="on_MainWindow_destroy" swapped="no"/>
+    <child>
+      <!-- n-columns=2 n-rows=5 -->
+      <object class="GtkGrid" id="Grid">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="row-spacing">10</property>
+        <property name="column-spacing">10</property>
+        <child>
+          <object class="GtkMenuBar" id="MenuBar">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="valign">start</property>
+            <child>
+              <object class="GtkMenuItem" id="Config">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="tooltip-text" translatable="yes">Configuration Options are here on this folder</property>
+                <property name="label" translatable="yes">_Configuration</property>
+                <property name="use-underline">True</property>
+                <child type="submenu">
+                  <object class="GtkMenu">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <child>
+                      <object class="GtkMenuItem" id="ChPath">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">Will prompt a change in the path used for the pso_bin folder.</property>
+                        <property name="label" translatable="yes">Change Path</property>
+                        <property name="use-underline">True</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSeparatorMenuItem">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkCheckMenuItem" id="Win32na">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">When enabled, will allow the program to modify and mod the win32_na.</property>
+                        <property name="label" translatable="yes">win32_Na modding</property>
+                        <property name="use-underline">True</property>
+                        <signal name="toggled" handler="win32na_toggled" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkCheckMenuItem" id="Logs">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">When enabled, will print the log messages.</property>
+                        <property name="label" translatable="yes">Log Messages</property>
+                        <property name="use-underline">True</property>
+                        <signal name="toggled" handler="logs_toggled" swapped="no"/>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="Util">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="tooltip-text" translatable="yes">All the Utilies will appear here.</property>
+                <property name="label" translatable="yes">_Utilities</property>
+                <property name="use-underline">True</property>
+                <child type="submenu">
+                  <object class="GtkMenu">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <child>
+                      <object class="GtkMenuItem" id="Redo">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">Will try and remake all folders for the ModLoader (MLoader and its insides).
+No information will be lost.</property>
+                        <property name="label" translatable="yes">Remake Folders</property>
+                        <property name="use-underline">True</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="About">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="tooltip-text" translatable="yes">Information about the program.</property>
+                <property name="label" translatable="yes">_About</property>
+                <property name="use-underline">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="Quit">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="tooltip-text" translatable="yes">Quit the Program</property>
+                <property name="label" translatable="yes">_Quit</property>
+                <property name="use-underline">True</property>
+                <signal name="activate" handler="gtk_widget_show" object="EndWindow" swapped="no"/>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="Space">
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
+                <property name="can-focus">False</property>
+                <property name="tooltip-text" translatable="yes">Quit the Program</property>
+                <property name="margin-top">5</property>
+                <property name="margin-bottom">5</property>
+                <property name="right-justified">True</property>
+                <property name="label" translatable="yes">PSO2 Mod Loader</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">0</property>
+            <property name="width">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkImage" id="MainImage">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="margin-start">70</property>
+            <property name="margin-end">70</property>
+            <property name="pixbuf">pso2 title modloader.png</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">1</property>
+            <property name="width">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow" id="WindowScroll">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="margin-end">5</property>
+            <property name="margin-bottom">10</property>
+            <property name="hscrollbar-policy">never</property>
+            <property name="vscrollbar-policy">always</property>
+            <property name="shadow-type">in</property>
+            <property name="overlay-scrolling">False</property>
+            <child>
+              <object class="GtkTextView" id="textView">
+                <property name="name">MainText</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="halign">center</property>
+                <property name="hscroll-policy">natural</property>
+                <property name="vscroll-policy">natural</property>
+                <property name="pixels-below-lines">2</property>
+                <property name="editable">False</property>
+                <property name="left-margin">3</property>
+                <property name="right-margin">7</property>
+                <property name="indent">2</property>
+                <property name="cursor-visible">False</property>
+                <property name="buffer">TerminalText</property>
+                <property name="accepts-tab">False</property>
+                <property name="monospace">True</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">2</property>
+            <property name="height">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButtonBox">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="margin-start">15</property>
+            <property name="margin-end">15</property>
+            <property name="margin-top">5</property>
+            <property name="margin-bottom">5</property>
+            <property name="orientation">vertical</property>
+            <property name="spacing">3</property>
+            <property name="layout-style">start</property>
+            <child>
+              <object class="GtkButton" id="LoadMods">
+                <property name="label" translatable="yes">Load Modded Files</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <signal name="clicked" handler="ModFiles" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="RestoreFiles">
+                <property name="label" translatable="yes">Restore Backup Files</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <signal name="clicked" handler="RestoreFiles" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="Easter">
+                <property name="label" translatable="yes">???</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <signal name="clicked" handler="EasterEgg" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">2</property>
+            <property name="height">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkProgressBar" id="ProgressBar">
+            <property name="visible">True</property>
+            <property name="app-paintable">True</property>
+            <property name="can-focus">False</property>
+            <property name="margin-start">10</property>
+            <property name="margin-end">10</property>
+            <property name="margin-bottom">10</property>
+            <property name="text" translatable="yes">0%</property>
+            <property name="show-text">True</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">4</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
