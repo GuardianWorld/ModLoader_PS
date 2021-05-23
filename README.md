@@ -1,4 +1,4 @@
-	Changelog Mod Loader, made by CAT (EE).
+   Changelog Mod Loader, made by CAT (EE).
 
  Version 0.4:
  - GUI made, the Terminal-Only interface is gone. The program is eating a little more memory, but almost nothing (25MB RAM maximum i saw on my side).
