@@ -12,6 +12,7 @@
 #define WRITE_ONLY 1
 
 #define PATH1 0
+#define PATHUPGRADE 99
 
 #define UPDATE 255
 
@@ -32,5 +33,7 @@ void turnMessages(ConfPTR config);
 void MakeDirOneTime(char *path);
 
 int mkdir(const char *pathname);
+
+int getFolderRestriction(ConfPTR config);
 
 #endif //LCONF_H_INCLUDED

@@ -1,51 +1,52 @@
-#include "headers/ConsoleInterface.h"
 #include "headers/LoaderConfig.h"
+#include "headers/Callbacks.h"
 #include "headers/LoadPasteModule.h"
 #include <stdio.h>
+#include <pthread.h>
 #include <stdlib.h>
+#include <gtk/gtk.h>
 
-int main()
+
+int main(int argc, char *argv[])
 {
-	int x = -1;
-	FILE* configFILE;
-    loadingMenu();
+    int x = 0;
+    //Backbone
 	TypeConfig configuration;
-	openConfigFile(&configuration, &configFILE);
-	while (1)
-	{
-		DefaultMenu(&configuration);
-		//printf("%s\n", configuration.path1);
-		scanf("%d", &x);
-		if (x == 1)
-		{
-			//Check mod folder for now
-            ListModInsert(&configuration);
-		}
-		if (x == 2)
-		{
-            ListModRemoval(&configuration);
-		}
-		if(x == 3)
-        {
-            printf("*Headpats*\n");
-        }
-        if(x == 4)
-        {
-            printf("Boop :3\n");
-        }
-            if (x == 404)
-        {
-            printf("Made by: CAT (EE)\n");
-        }
-		if (x == 9)
-		{
-			ConfigMenu(&configuration, &configFILE);
-		}
-		if (x == 0)
-        {
-            break;
-        }
-		getchar();
-	}
+
+    //UI
+    GtkBuilder *builder;
+    UI gui;
+    gtk_init(&argc, &argv); //Starts GTK
+
+    //Initialize Builder
+    builder = gtk_builder_new();
+    gtk_builder_add_from_file (builder, "interface/PSO2MLMain.interface", NULL);
+
+    //Initialize Configuration
+    x = openConfigFile(&configuration);
+    gui.edt.pConfig = &configuration;
+
+    //Initialize UI
+    initializeUI(builder,&gui);
+    initializeRequests(&gui);
+    signalConnections(&gui);
+
+    //Finish Initialization of UI
+    g_object_unref(builder);
+    gtk_widget_show_all(gui.mainWindow);
+    start(&gui.edt, configuration.NAFolder1);
+
+    //Checks
+    if(gui.mainWindow == NULL)
+    {
+        return 1;
+    }
+    if(x == 0)
+    {
+        changePath(NULL, &gui);
+    }
+    //getFolderRestriction(&configuration);
+    //changePath(NULL, &gui);
+    gtk_main(); //Loops GTK
 	return 0;
 }

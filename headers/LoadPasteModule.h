@@ -16,7 +16,6 @@
 
 int CheckFile();
 int checkProhibitions(char* dirName);
-int getFolderRestriction(ConfPTR config);
 int getFileAmount(ConfPTR config, char *temp, DIR *d);
 void ListModInsert(ConfPTR config, gVar *buffers, int pos);
 void ListModRemoval(ConfPTR config, gVar *buffers, int pos);

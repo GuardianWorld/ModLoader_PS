@@ -23,27 +23,6 @@ int getFileAmount(ConfPTR config, char *temp, DIR *d)
 	return x-2;
 }
 
-
-int getFolderRestriction(ConfPTR config)
-{
-    int x = 0;
-    int size = strlen(config->path1);
-    if(size >= 11)
-    {
-        char *bin = &config->path1[size-10];
-        if(strncmp(bin, "\\pso2_bin", 9) != 0)
-        {
-            printf("SPINN\n");
-            return 0;
-        }
-    }
-    else
-    {
-        return 0;
-    }
-    return 1;
-}
-
 void ListModInsert(ConfPTR config, gVar *buffers, int pos)
 {
     int x = 0, i = 0 , files = 0;

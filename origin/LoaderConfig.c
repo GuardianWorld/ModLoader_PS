@@ -48,7 +48,6 @@ void writeConfig(ConfPTR config, int empty)
 	if (empty == EMPTY)
 	{
 		strcpy(config->path1, "NO PATH\n");
-
         config->NAFolder1 = 1;
         config->hideMessages = 1;
 	}
@@ -62,11 +61,16 @@ void writeConfig(ConfPTR config, int empty)
     }
 
 	*configFile = fopen("ModLoaderConfig.txt", "w");
+	if(getFolderRestriction(config) == 0)
+    {
+        strcpy(config->path1, "INVALID PATH\n");
+        empty == EMPTY;
+    }
 	fprintf(*configFile, config->path1);
     fprintf(*configFile, "%d\n", config->NAFolder1);
     fprintf(*configFile, "%d\n", config->hideMessages);
     fprintf(*configFile, "V3");
-    if (empty == EMPTY)
+    if (empty == PATHUPGRADE)
     {
         memset(temp,'\0',208);
         size = strlen(config->path1) - 1;
@@ -152,13 +156,16 @@ void ChangeNAFolderUsage(ConfPTR config)
 
 void remakeFolders(ConfPTR config)
 {
-    char temp[208];
-    int size = 0;
-    memset(temp,'\0',208);
-    size = strlen(config->path1) - 1;
-    strncpy(temp, config->path1,size);
-    MakeDirOneTime(temp);
-    return;
+    if(getFolderRestriction(config) != 0)
+    {
+        char temp[208];
+        int size = 0;
+        memset(temp,'\0',208);
+        size = strlen(config->path1) - 1;
+        strncpy(temp, config->path1,size);
+        MakeDirOneTime(temp);
+        return;
+    }
 }
 
 void turnMessages(ConfPTR config)
@@ -174,5 +181,23 @@ void turnMessages(ConfPTR config)
     writeConfig(config, NOEMPTY);
 }
 
-
+int getFolderRestriction(ConfPTR config)
+{
+    int x = 0;
+    int size = strlen(config->path1);
+    if(size >= 11)
+    {
+        char *bin = &config->path1[size-10];
+        if(strncmp(bin, "\\pso2_bin", 9) != 0)
+        {
+            //printf("SPINN\n");
+            return 0;
+        }
+    }
+    else
+    {
+        return 0;
+    }
+    return 1;
+}
 

@@ -201,7 +201,7 @@ void on_folder_set(GtkWidget *widget, UI *gui)
         strcpy(gui->edt.pConfig->path1, gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(gui->tempEntry)));
         strcat(gui->edt.pConfig->path1, "\n");
         //printf("folder name = %s\n", gui->edt.pConfig->path1);
-        writeConfig(gui->edt.pConfig, NOEMPTY);
+        writeConfig(gui->edt.pConfig, PATHUPGRADE);
         stringMixing(textTmp,240,gui->edt.pConfig->path1, NULL, NULL, PATHCONV);
         gtk_entry_set_text(GTK_ENTRY(gui->tempEntry2), textTmp);
     }
