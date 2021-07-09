@@ -1,4 +1,14 @@
    Changelog Mod Loader, made by CAT (EE).
+Version 0.5:
+- This mess of a code is still standing... and i hope i don't have to add any more features to it to be honest... otherwise i'm gonna run from GTK3 and to another GUI maker...
+- Changes:
+- Now can do NGS folders as well, both Paste and Backup!
+- A little more foolproof against some bugs
+- Fixed some minor bugs;
+- Probably created some bugs;
+
+Any bugs, please tell me!
+
 
  Version 0.4:
  - GUI made, the Terminal-Only interface is gone. The program is eating a little more memory, but almost nothing (25MB RAM maximum i saw on my side).
