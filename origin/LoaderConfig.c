@@ -24,18 +24,39 @@ void MakeDirOneTime(char *path)
     //printf("Making folders\n");
     char temporary[250]; //Mod Folder, Backups usage
     char temporary2[250];
+    char temporary3[250];
+    char temporary4[250];
+    char rootFolder[250];
+    //Makes the Root Folder
     strcpy(temporary, path);
     strcat(temporary, "\\MLoader");
     mkdir(temporary);
+    //Makes the Base folder
+    strcpy(rootFolder, temporary);
+    strcat(rootFolder, "\\win32");
+    mkdir(rootFolder);
+    //Makes the Reboot Folder
+    strcpy(rootFolder, temporary);
+    strcat(rootFolder, "\\win32reboot");
+    mkdir(rootFolder);
+
+    //Makes the Backup folder
     strcat(temporary, "\\backup");
     mkdir(temporary);
     strcat(temporary, "\\path1");
     mkdir(temporary);
+    //Makes the win32 and win32_na folders;
     strcpy(temporary2, temporary);
+    strcpy(temporary3, temporary);
+    strcpy(temporary4, temporary);
     strcat(temporary, "\\win32");
     strcat(temporary2, "\\win32_na");
+    strcat(temporary3, "\\win32reboot");
+    strcat(temporary4, "\\win32reboot_na");
     mkdir(temporary);
     mkdir(temporary2);
+    mkdir(temporary3);
+    mkdir(temporary4);
     //printf("Done!\n");
 }
 

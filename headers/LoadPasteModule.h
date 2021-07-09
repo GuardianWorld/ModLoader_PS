@@ -19,8 +19,9 @@ int checkProhibitions(char* dirName);
 int getFileAmount(ConfPTR config, char *temp, DIR *d);
 void ListModInsert(ConfPTR config, gVar *buffers, int pos);
 void ListModRemoval(ConfPTR config, gVar *buffers, int pos);
-void LoadPasteBackupModule(ConfPTR config, char *path, char *filename, int SIZE, gVar *buffers, int *pos);
-void returnBeckups(ConfPTR config, char *path, char *filename,char *purePath, gVar *buffers, int *pos);
-void returnBeckupsNAFolder(ConfPTR config, char *path, char *filename, char *purePath, gVar *buffers, int *pos);
+void LoadPasteBackupModule(ConfPTR config, char *path, char *filename, int SIZE, gVar *buffers, int *pos, int NGS, char* NGSPath);
+void LoadPasteBackupModuleNGS(ConfPTR config,char *path, char *filename, int SIZE, gVar *buffers, int *pos, char* NGSPath);
+void returnBeckups(ConfPTR config, char *path, char *filename,char *purePath, gVar *buffers, int *pos,int NA, int NGS, char* NGSPath);
+//void returnBeckupsNAFolder(ConfPTR config, char *path, char *filename, char *purePath, gVar *buffers, int *pos);
 
 #endif //LPM_H_INCLUDED

@@ -255,7 +255,7 @@ void redoFolder(GtkWidget *widget, gVar *buffers)
 void about(GtkWidget *widget, gVar *buffers)
 {
     char textFB[400];
-    strcpy(textFB, "Made by (Cat).\nVersion 4\n");
+    strcpy(textFB, "Made by (Cat).\nVersion 5\n");
     int pos = GUIPosInsert(textFB, buffers->terminalTextBuffer, 0);
 }
 
